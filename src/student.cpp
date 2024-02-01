@@ -24,4 +24,32 @@ void controllerTick (Overlord &over)
     float motorVel = over.getMotorVel ();
     
     over.setMotorU (0);
+
+    float w0 = over.getSlider(SliderEnum::prog1) * 1.0 / 1000;
+    
+    float e = w0 - motorVel;
+
+    static float I = 0;
+    static constexpr float Kk = 1;
+    static constexpr float Tk = 1;
+
+    float Kke = Kk * e;
+
+    float u = I + Kke;
+
+    if(u == constrain(u, 12, -12) ||
+        I * e < 0)
+    {
+        float dI = over.getTs() / Tk * Kke;
+        I = I + dI;
+    }
+
+    u = constrain(u, 12, -12);
+
+
+    Serial.print(w0);
+    Serial.print(' ');
+    Serial.print(motorVel);
+
+    over.setMotorU(u);
 }
