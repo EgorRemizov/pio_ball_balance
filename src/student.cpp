@@ -30,26 +30,27 @@ void controllerTick (Overlord &over)
     float e = w0 - motorVel;
 
     static float I = 0;
-    static constexpr float Kk = 1;
-    static constexpr float Tk = 1;
-
-    float Kke = Kk * e;
-
-    float u = I + Kke;
-
-    if(u == constrain(u, 12, -12) ||
-        I * e < 0)
+    static constexpr float Kp = 1;
+    static constexpr float Ki = 6.8;   
+    static constexpr float Ts = 0.006;
+ 
+    float eKp = e*Kp;
+    float u = I + eKp;
+    float uMax = 12;
+    float eKi = eKp * Ki;
+    if(u == constrain(u, -uMax, uMax) ||
+    I * eKi < 0)
     {
-        float dI = over.getTs() / Tk * Kke;
+        float dI = Ts * eKi;
         I = I + dI;
     }
-
-    u = constrain(u, 12, -12);
+    
+    u = constrain(u, -uMax, uMax);
 
 
     Serial.print(w0);
     Serial.print(' ');
-    Serial.print(motorVel);
+    Serial.println(motorVel);
 
     over.setMotorU(u);
 }

@@ -54,13 +54,13 @@ void Overlord::tick ()
     bool isTimeOk = false;
     while (micros () - timer < Tsmicros) isTimeOk = true;
 
-    if (!isTimeOk)
-    {
-        unsigned long mcrs = micros ();
-        Serial.print ("ПРЕВЫШЕН ПЕРИОД КВАНТОВАНИЯ НА [мкс]: ");
-        Serial.println (mcrs - timer - Tsmicros);
-    }
-    timer = micros ();
+    // if (!isTimeOk)
+    // {
+    //     unsigned long mcrs = micros ();
+    //     Serial.print ("ПРЕВЫШЕН ПЕРИОД КВАНТОВАНИЯ НА [мкс]: ");
+    //     Serial.println (mcrs - timer - Tsmicros);
+    // }
+    // timer = micros ();
 
     motor->update ();
     car->update ();
@@ -78,17 +78,17 @@ void Overlord::tick ()
     ledManager->setSetpointPos (sp);
     ledManager->show ();
 
-    Serial.print (timer/1000);
-    Serial.print (' ');
-    // Serial.print (timeTick);
-    // Serial.print ('\t');
-    Serial.print (sp, 4);
-    Serial.print (' ');
-    Serial.print (x, 4);
-    Serial.print (' ');
-    // Serial.print (u);
+    // Serial.print (timer/1000);
     // Serial.print (' ');
-    Serial.println ();
+    // // Serial.print (timeTick);
+    // // Serial.print ('\t');
+    // Serial.print (sp, 4);
+    // Serial.print (' ');
+    // Serial.print (x, 4);
+    // Serial.print (' ');
+    // // Serial.print (u);
+    // // Serial.print (' ');
+    // Serial.println ();
 
     timeTick++;
     if (timeTick >= sizeof (setPointArray))
