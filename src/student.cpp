@@ -30,8 +30,8 @@ void controllerTick (Overlord &over)
     float e = w0 - motorVel;
 
     static float I = 0;
-    static constexpr float Kp = 1;
-    static constexpr float Ki = 6.8;   
+    static constexpr float Kp = 1.7;
+    static constexpr float Ki = 20;   
     static constexpr float Ts = 0.006;
  
     float eKp = e*Kp;
